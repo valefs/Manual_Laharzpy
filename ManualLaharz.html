@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Valeska Farías - Tomás Iglesias" />
+  <title>Manual laharz_py</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Manual laharz_py</h1>
+<h2 class="author">Valeska Farías - Tomás Iglesias</h2>
+</div>
+<h1 id="manual-laharz_py">Manual Laharz_py</h1>
+<h2 id="instalación-y-configuración">Instalación y Configuración</h2>
+<p>Descargar el <a href="archivo" class="uri">archivo</a> desde la página oficial del projecto: <a href="http://pubs.usgs.gov/of/2014/1073/" class="uri">http://pubs.usgs.gov/of/2014/1073/</a></p>
+<p>El archivo consta de las siguientes carpetas y archivos:</p>
+<ul>
+<li>laharz_py (carpeta)</li>
+<li>laharz_textfiles (carpeta)</li>
+<li>laharz_shapefiles (carpeta)</li>
+<li>mtrain_example (carpeta)</li>
+<li>Laharz_py_93.tbx (carpeta)</li>
+<li>Laharz_py.tbx (carpeta)</li>
+</ul>
+<p>La carpeta <em>laharz_py</em> y los archivos <em>Laharz_py_93.tbx</em> y <em>Laharz_py.tbx</em> se deben copiar en <em>C:/Users/<nombre de usuario>/Documentos/ArcGIS/</em>.</p>
+<p>(imagen de referencia)</p>
+<p>Para instalar las herramientas en ArcMap:</p>
+<ul>
+<li>Abrir ArcMap</li>
+<li>Abrir la ventana Caja de Herramientas (Toolbox) e instalar la caja de herramientas Laharz_py_93 (Click derecho en la carpeta principal (Arc Toolbox) &gt; Agregar Herramientas (Add Toolbox) &gt; Buscar el archivo Laharz_py_93.tbx)</li>
+<li>Aparece la caja de herramientas Laharz_py_93.</li>
+</ul>
+<h3 id="recomendaciones">Recomendaciones</h3>
+<p>El geoprocesamiento en segundo plano es una opción que viene activada por defecto en ArcGIS 10, pero con algunas herramientas causa problemas. Para desactivarlo se debe:</p>
+<ul>
+<li>Abrir ArcMap</li>
+<li>Click en <em>Geoprocesos (Geoprocessing)</em> &gt; <em>Opciones de Geoprocesos (Geoprocessing Options)</em></li>
+<li>Dentro de <em>Opciones de Geoprocesos</em> desactivar la opción <em>Geoprocesamiento en segundo plano (Background Geoprocessing)</em></li>
+<li>Click en el botón <em>Ok</em></li>
+</ul>
+<h3 id="carpetas-de-proyecto">Carpetas de proyecto</h3>
+<p>Las carpetas <em>laharz_shapefiles</em> y <em>laharz_textfiles</em> son carpetas que deben estar presentes en cada proyecto donde se vayan a usar las herramientas de laharz_py.</p>
+<p>La estructura de carpetas para cada proyecto debería ser la siguiente:</p>
+<ul>
+<li>Proyecto
+<ul>
+<li>laharz_shapefiles</li>
+<li>laharz_textfiles</li>
+<li>Proyecto.mxd</li>
+</ul></li>
+</ul>
+<h2 id="uso">Uso</h2>
+<h3 id="preparación-del-espacio-de-trabajo">Preparación del Espacio de Trabajo</h3>
+<p>Se debe cambiar la carpeta del Espacio de Trabajo (Workspace) a la carpeta del proyecto en en que se esté trabajando. Para hacer esto se debe:</p>
+<ul>
+<li>Click en <em>Geoprocesos (Geoprocessing)</em> &gt; <em>Entornos (Environments)</em></li>
+<li>Expandir la sección <em>Espacio de Trabajo (Workspace)</em> y cambiar <em>Current Workspace</em> y <em>Scratch Workspace</em> por la carpeta del proyecto en el que estemos trabajando</li>
+</ul>
+<h3 id="uso-de-las-herramientas">Uso de las herramientas</h3>
+<p>La caja de herramientas contiene siete herramientas:</p>
+<ul>
+<li>Create Surface Hydrology Rasters</li>
+<li>Generate New Stream Network</li>
+<li>Hazard Zone Proximal</li>
+<li>Laharz distal zones</li>
+<li>Laharz distal zones with Conf Levels</li>
+<li>Merge Rasters by Volume</li>
+<li>Raster to Shapefile</li>
+</ul>
+<div class="figure">
+<img src="ArcToolbox.png" alt="ArcToolbox con las herramientas de Laharz_py" />
+<p class="caption">ArcToolbox con las herramientas de Laharz_py</p>
+</div>
+<p>Las primeras tres tipicamente se usan una sola vez por proyecto para generar los sets de datos usados en las simulaciones. Las herramientas <em>Merge Rasters by Volume</em> y <em>Raster to Shapefile</em> usualmente se usan cuando todas las simulaciones están completas. Ambas herramientas de <em>Laharz distal zones</em> se usan todas las veces que sea necesario, usualmente una vez por cada canal de drenaje de cada cuenca.</p>
+<h4 id="paso-1-create-surface-hydrology-rasters">Paso 1: Create Surface Hydrology Rasters</h4>
+<p>Al hacer doble click en la herramienta se abre una ventana para ingresar los datos requeridos por ella. Esta herramienta recibe como entrada un DEM (Digital Elevation Model) y un Umbral de Red de Drenaje (Stream Threshold). Además se ingresa un prefijo que se usará para nombrar los archivos que se generen como producto de esta herramienta.</p>
+<ul>
+<li>Lo primero es asegurarse que el Espacio de Trabajo actual (Current Workspace) sea la carpeta para el proyecto en el que estamos trabajando.</li>
+<li>Luego hay que indicar cual es el archivo del DEM que se va a usar. Esto se puede hacer de dos formas:
+<ol style="list-style-type: decimal">
+<li>Si tenemos el DEM agregado como un elemento del mapa que tenemos abierto, se puede arrastrar desde la Tabla de Contenidos (Table of Contents) hasta el campo Input DEM en la ventana de la herramienta.</li>
+<li>Hacemos click en el ícono de la carpeta <img src="IconoCarpeta.png" alt="carpeta" /> y vamos hasta la ubicación de nuestro archivo. [Nota: Puede ser necesario hacer una Conexión a la Carpeta (Folder Connection) usando el ícono de la carpeta con un signo &quot;+&quot; <img src="IconoFolderConnection.png" alt="Folder Connection" /> ]</li>
+</ol></li>
+<li>Hay que indicar cual va a ser el prefijo de los archivos a crear. La recomendación es usar un prefijo que describa el área que se está estudiando (Si estudiamos el Volcán Osorno, usar el prefijo 'osr'). [Nota: No usar prefijos que contengan doble ele 'll', producen un error en la herramienta]</li>
+<li>También se tiene que indicar un Stream Threshold. Este parámetro define que parte de la red de drenaje se considera un canal. Números más altos indican que los canales serán partes más proundas de la red. Un valor default para empezar es 1000.</li>
+</ul>
+<p>Una vez ingresados todos los parámetros de entrada se hace click en el botón Ok y la herramienta se ejecutará.</p>
+<p>Esta herramienta crea un raster de canales que identifica las celdas en donde la acumulación de flujo es igual o mayor al Stream Threshold. Además va rellenando en el DEM las depresiones en el cauce del canal para asegurar que el flujo sea continuo en las simulaciones, y también generará un raster de la dirección del flujo, de acumulación de flujo y un raster de redes de drenaje. Estos cuatro rasters que se generan se llamarán con el prefijo que definamos, y con el sufijo &quot;fill&quot; para el DEM rellenado, &quot;dir&quot; para la dirección de flujo, &quot;flac&quot; para la acumulación de flujo y &quot;str&quot; para las redes de drenaje. Por ejemplo, si estamos estudiando el Volcan Osorno y nuestro prefijo es &quot;osr&quot;, los archivos generados serán: osrfill, osrdir, osrflac y osrstr; los cuales se guardaran en el Espacio de Trabajo actual (Current Workspace). Es muy importante notar que de ahora en adelante en todas las herramientas el usuario debe usar el DEM rellenado (con sufijo &quot;fill&quot;), en vez del DEM original.</p>
+<div class="figure">
+<img src="CreateSurfaceHydrologyRasters.png" alt="Create Surface Hydrology Rasters" />
+<p class="caption">Create Surface Hydrology Rasters</p>
+</div>
+<h4 id="paso-2-generate-new-stream-network">Paso 2: Generate New Stream Network</h4>
+<p>Si fuese necesario se puede crear otro archivo de redes de drenaje usando otro valor para el Stream Threshold. En este caso la herramienta reutiliza el raster de acumulación de flujo (terminado en &quot;flac&quot;) generado con la primera herramienta (Create Surface Hydrology Rasters). Los parámetros que se usan son los siguientes:</p>
+<ul>
+<li>Current Workspace: Cambiar a la carpeta del proyecto en el que estamos trabajando.</li>
+<li>Flow Accumulation Grid: Se selecciona el archivo de acumulación de flujo creado anteriormente.</li>
+<li>Stream Threshold: Este parámetro define que parte de la red de drenaje se considera un canal. Números más altos indican que los canales serán partes más proundas de la red.</li>
+</ul>
+<div class="figure">
+<img src="GenerateNewStreamNetwork.png" alt="Generate New Stream Network" />
+<p class="caption">Generate New Stream Network</p>
+</div>
+<h4 id="paso-3-hazard-zone-proximal">Paso 3: Hazard Zone Proximal</h4>
+<p>Esta herramienta calcula la Zona de Peligro Proximal del volcán. Los siguientes parámetros son necesarios:</p>
+<ul>
+<li>Current Workspace: Cambiar a la carpeta del proyecto en el que estamos trabajando.</li>
+<li>Filled DEM: Se selecciona o ingresa el DEM Rellenado que se creó anteriormente.</li>
+<li>Stream Grid: Se ingresa el raster de redes de drenaje</li>
+<li>Slope Value: Este parámetro se refiere a un cono de H/L</li>
+<li>Cone Apex Type: Hay tres formas de enegir el apice de la zona de estudio. Estas son:
+<ul>
+<li>Maximum_Elevation: Si dentro del área del DEM el ápice (cima) del volcán es la parte más alta, esta opción es la recomendada, ya que lo detectará automáticamente.</li>
+<li>Textfile: Archivo de texto con las coordenadas del ápice del volcán extraídas manualmente. El archivo de texto debe usar coordenadas UTM, con punto para el separador de decimales, y un coma para separar el valor Este del Norte. Ejemplo del contenido del archivo de texto:</li>
+</ul>
+<pre><code> 587737.23,5204869.78</code></pre>
+<ul>
+<li>XY coordinates: Ingreso manual de las coordenadas XY (Este, Norte) en la ventana de la herramienta.</li>
+</ul></li>
+</ul>
+<div class="figure">
+<img src="HazardZoneProximal.png" alt="Hazard Zone Proximal" />
+<p class="caption">Hazard Zone Proximal</p>
+</div>
+<h4 id="paso-4-laharz-distal-zones">Paso 4: Laharz distal zones</h4>
+<p>Esta herramienta generará rasters para cada canal a estudiar. Cada raster tendrá el modelo de uno o más volúmenes para el flujo a modelar. Los parámetros son:</p>
+<ul>
+<li>Current Workspace: Seleccionar la carpeta del proyecto en el que estamos trabajando.</li>
+<li>Filled DEM: Se selecciona o ingresa el DEM rellenado que se creó anteriormente.</li>
+<li>Drainage prefix identifier: Es el prefijo para el nombre de los archivos creados para cada volumen calculado. Puede tener un máximo de 10 caracteres. Ejemlo: villar_</li>
+<li>Volume File: En este archivo de texto se especifican hasta 7 volúmenes para modelar. Los volúmenes se miden en metros cúbicos, y el archivo de texto debe tener el siguiente formato:</li>
+</ul>
+<pre><code> 100000, 300000, 500000</code></pre>
+<ul>
+<li><p>Starting Coordinates File: Este archivo de texto contiene los puntos de inicio de las simulaciones para cada canal de la red de drenaje a modelar. Una restricción es que los puntos de inicio no pueden estar muy lejos de un canal presente en la red de drenaje generada anteriormente, sino la herramienta generará errores. Los datos para cada punto de inicio para cada canal se debe escribir en una línea distinta. Las coordenadas deben estar en UTM, los decimales separados por puntos, la coordenada este separada del oeste por una coma. El contenido del archivo se ve así:</p>
+<pre><code>587737,5204869
+579305,5196801
+577930,5191581</code></pre>
+<p>En este caso la herramienta generaría 3 rasters (uno para cada canal llamados). Ejemplo: villar_1, villar_2, villar_3</p></li>
+<li>Type of Flow: Las herramientas de Laharz_py pueden modelar tres tipos de flujos. Se selecciona el tipo de evento a modelar, que puede ser:
+<ul>
+<li>Lahar: Lahar</li>
+<li>Debris Flow: Flujo de detritos</li>
+<li>Rock Avalanche: Avalancha de rocas</li>
+</ul></li>
+</ul>
+<div class="figure">
+<img src="LaharzDistalZones.png" alt="Laharz distal zones" />
+<p class="caption">Laharz distal zones</p>
+</div>
+<h4 id="paso-5-laharz-distal-zones-with-conf-levels-opcional">Paso 5: Laharz distal zones with Conf Levels (opcional)</h4>
+<p>Esta herramienta sirve para hacer una estimación del alcance de un lahar de acuerdo a un intervalo de confianza específico escogido por el usuario. Los parámetros que usa son los siguientes:</p>
+<ul>
+<li>Current Workspace</li>
+<li>Filled DEM</li>
+<li>Drainage Name</li>
+<li>Volume Textfile: Sólo se acepta un volumen por archivo, a diferencia de la herramienta anterior que acepta hasta siete volúmenes. Las unidades de este volumen son metros cúbicos.</li>
+<li>Coordinates Textfile</li>
+<li>Confidence Limits: Define el Intervalo de Confianza. Utiliza valores entre 50 y 99.</li>
+</ul>
+<div class="figure">
+<img src="LaharzDistalZonesWithConfLevels.png" alt="Laharz distal zones with Confidence Levels" />
+<p class="caption">Laharz distal zones with Confidence Levels</p>
+</div>
+<h4 id="paso-6-merge-rasters-by-volume">Paso 6: Merge Rasters by Volume</h4>
+<p>Esta herramienta se usa cuando se quieren combinar en un raster todos los modelos de un mismo volumen calculados para distintos canales. Generará un raster por cada volumen calculado y los llamará merge_2, merge_3 y así sucesivamente. Los parámetros son los siguientes:</p>
+<ul>
+<li>Current Workspace</li>
+<li>Filled DEM</li>
+<li><p>Raster List Textfile: Archivo de texto con los nombres de los raster generados por la herramienta <em>Laharz distal zones</em> que se quieren combinar por volumen. Cada nombre debe estar separado por una coma. Ejemplo:</p>
+<pre><code>villar_1,villar_2,villar_3</code></pre></li>
+<li><p>Volume List Textfile: Es el mismo archivo usado en la herramienta <em>Laharz distal zones</em>.</p></li>
+</ul>
+<div class="figure">
+<img src="MergeRasterByVolume.png" alt="Merge Rasters by Volume" />
+<p class="caption">Merge Rasters by Volume</p>
+</div>
+<h4 id="paso-7-raster-to-shapefile">Paso 7: Raster to Shapefile</h4>
+<p>El paso final es transformar los raster combinados por volumen en archivos shapefile. Los parámetros son:</p>
+<ul>
+<li>Current Workspace</li>
+<li>Shapefile Name: El nombre del shapefile a crear.</li>
+<li>Raster to Convert: Seleccionar el raster a convertir.</li>
+</ul>
+<div class="figure">
+<img src="RasterToShapefile.png" alt="Raster to Shapefile" />
+<p class="caption">Raster to Shapefile</p>
+</div>
+</body>
+</html>
